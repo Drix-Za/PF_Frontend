@@ -13,7 +13,9 @@
               <a class="nav-link nav-link-active" href="#">Store</a>
               
               <RouterLink to="/dashboard" class="nav-link">Dashboard</RouterLink>
-              
+              <RouterLink to="/login" class="nav-link">Login</RouterLink>
+              <RouterLink to="/crudtest" class="nav-link">CrudTest</RouterLink>
+
               <a class="nav-link" href="#">Library</a>
               <a class="nav-link" href="#">Community</a>
               <a class="nav-link" href="#">Support</a>
@@ -135,19 +137,21 @@ import GameCard from './GameCard.vue';
 
 // --- Data Simulado ---
 const featuredGames = ref([
-  { title: 'Neon Racers', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUM8pwS2zYeR4r0a_50A4sdbxIhOHd7ROpUm6UOTXiLrvHzqvJys7lNRUIWFgb7-XNgRxOC3cIofmGzfxepU6Pwb-x9njnX034Kot0nbwR-Ol75cWya2nSDPda0SuvKedM_5o84tHFKxYkDU27cB5eFk_avglTkFo3eYHBLOhX5E14yFPhfe7YNk-a1FCTob1MOQQ59YiJuNn-3TG7tVv3F0t2ARXNLUf0R2twovfchnhvJo-rgdOblcksqUddIYART_sIjguXorM', price: '$19.99', oldPrice: '$24.99', discount: '-20%' },
-  { title: 'Galaxy Warriors', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3xkCt9_ry5zfLtXzpTfimr3STXBm7rRdlEri0x1StgFkntJiOjnDkSMugTbqVgAniENEAEmcqIRRwl40rOkC_dYJI4nEhD5duo_fPh4E-veBTrD6B7FUavcB9Lpj_2Dhn7YAn6HN0a-UN7EvBNNZvjuEMvXVJC4h_7KtVKLSJZ18bo4CDqcFV9a1JbaJ2lQBpRjrBhB0WtNqVpKt_pvu5dD39AunWjXy0v1-ju0nFnlH5OMbP_bkKYWvZkxDFR4TNRdYm6j7exTs', price: '$39.99', oldPrice: null, discount: null },
-  { title: 'Mystic Forest', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAreJU7hNM5bQCAemaoWt_xgsKV3u8pOJlSajbMvsSVjSWS9RFDWFn3I-su3T2B-uI3_36PxM_i_GHr3dYkmTAnLe0ri66khr2ooH2LSVaRCvDnr2M3jz89f2bYF2sloQdLHeGixuyW_mWSD6pzNhg_ugSurO943qxGMziIhhoLMZ6Ju3kwxldLgM8OdnFeEKf261C-EwtEda5A9BHLj6GHOSdviXfZMT80BmpGVRVG8q1QgNMxZ8-c8g6kvpZIRvKmZp3mWV1Bq6E', price: '$29.99', oldPrice: null, discount: null },
-  { title: 'The Last Stand', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5fqoYa8w-pp8rSRcoQJEkj4jzsdy0HiUABXqNJ8SQ8Vqn5sYznMMLchgQDxogtYfdPkCMhLCcqoLYphSLO-dnf3ROhg7dChhSMvWT_ScGT0CsFXtfFsHDTO5rnHs3_wZUV7rlO0xjBqInmkbxmHL8J01pYUXPVWCXf_z7A6J8D3z2_Kgq5DCMqisZDAp0DwklzuumIy9bxRIi0pnS40lVOLvkDimriXSKQtS-SHrszlA6dTucVfABUWhPeBtrqho_6zl57_HK5FE', price: '$24.99', oldPrice: '$49.99', discount: '-50%' },
-  { title: 'Ancient Realms', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDa_57CpVcXlgibXvw4sbb_Uarx3ImF7nVrWnFH2lWotT3EmrlqG90_XCnj4dBJ8ByKosbRSEuNiiK0MJHGs_ZlMiWUwqPN29CIdgsSK4T6e2CC1pz2pizg6NxQprLy7J-kx3i1tye_4Hyc2DJXmF7FbkRUfMLCd1aE9K6f1qHls0VM8CUhElSiObFiW1I0TU5T52-ueXzDzg6GbScTHCl5gRi-_rZgxNYiHRqX9GmruWqBMOsoKMzdGhvGi04uSl3OBf3NQYs0Vko', price: '$59.99', oldPrice: null, discount: null },
+  // Agregamos 'slug'
+  { title: 'Neon Racers', slug: 'neon-racers', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUM8pwS2zYeR4r0a_50A4sdbxIhOHd7ROpUm6UOTXiLrvHzqvJys7lNRUIWFgb7-XNgRxOC3cIofmGzfxepU6Pwb-x9njnX034Kot0nbwR-Ol75cWya2nSDPda0SuvKedM_5o84tHFKxYkDU27cB5eFk_avglTkFo3eYHBLOhX5E14yFPhfe7YNk-a1FCTob1MOQQ59YiJuNn-3TG7tVv3F0t2ARXNLUf0R2twovfchnhvJo-rgdOblcksqUddIYART_sIjguXorM', price: '$19.99', oldPrice: '$24.99', discount: '-20%' },
+  { title: 'Galaxy Warriors', slug: 'galaxy-warriors', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3xkCt9_ry5zfLtXzpTfimr3STXBm7rRdlEri0x1StgFkntJiOjnDkSMugTbqVgAniENEAEmcqIRRwl40rOkC_dYJI4nEhD5duo_fPh4E-veBTrD6B7FUavcB9Lpj_2Dhn7YAn6HN0a-UN7EvBNNZvjuEMvXVJC4h_7KtVKLSJZ18bo4CDqcFV9a1JbaJ2lQBpRjrBhB0WtNqVpKt_pvu5dD39AunWjXy0v1-ju0nFnlH5OMbP_bkKYWvZkxDFR4TNRdYm6j7exTs', price: '$39.99', oldPrice: null, discount: null },
+  { title: 'Mystic Forest', slug: 'mystic-forest', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAreJU7hNM5bQCAemaoWt_xgsKV3u8pOJlSajbMvsSVjSWS9RFDWFn3I-su3T2B-uI3_36PxM_i_GHr3dYkmTAnLe0ri66khr2ooH2LSVaRCvDnr2M3jz89f2bYF2sloQdLHeGixuyW_mWSD6pzNhg_ugSurO943qxGMziIhhoLMZ6Ju3kwxldLgM8OdnFeEKf261C-EwtEda5A9BHLj6GHOSdviXfZMT80BmpGVRVG8q1QgNMxZ8-c8g6kvpZIRvKmZp3mWV1Bq6E', price: '$29.99', oldPrice: null, discount: null },
+  { title: 'The Last Stand', slug: 'the-last-stand', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5fqoYa8w-pp8rSRcoQJEkj4jzsdy0HiUABXqNJ8SQ8Vqn5sYznMMLchgQDxogtYfdPkCMhLCcqoLYphSLO-dnf3ROhg7dChhSMvWT_ScGT0CsFXtfFsHDTO5rnHs3_wZUV7rlO0xjBqInmkbxmHL8J01pYUXPVWCXf_z7A6J8D3z2_Kgq5DCMqisZDAp0DwklzuumIy9bxRIi0pnS40lVOLvkDimriXSKQtS-SHrszlA6dTucVfABUWhPeBtrqho_6zl57_HK5FE', price: '$24.99', oldPrice: '$49.99', discount: '-50%' },
+  { title: 'Ancient Realms', slug: 'ancient-realms', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDa_57CpVcXlgibXvw4sbb_Uarx3ImF7nVrWnFH2lWotT3EmrlqG90_XCnj4dBJ8ByKosbRSEuNiiK0MJHGs_ZlMiWUwqPN29CIdgsSK4T6e2CC1pz2pizg6NxQprLy7J-kx3i1tye_4Hyc2DJXmF7FbkRUfMLCd1aE9K6f1qHls0VM8CUhElSiObFiW1I0TU5T52-ueXzDzg6GbScTHCl5gRi-_rZgxNYiHRqX9GmruWqBMOsoKMzdGhvGi04uSl3OBf3NQYs0Vko', price: '$59.99', oldPrice: null, discount: null },
 ]);
 
 const newReleases = ref([
-  { title: 'Desert Wanderer', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD7HlBIw0_V7DFqkZCpbL80acsLMFZp2EnxKnZhfxfcE5tBwHEv-s7DdArchb8aPOojQpILChnN8nQKiwwFIRclZUpNfoJcImQXHejY1a4JAPwvsm9jkF9JcoRLrRVlEpNBXPFLW0GzjdPfalGeaF9chMCbxbO-ei0hei2-_Bzhvw_5Ux54J_McHzLibm1vxxWqZU75k_E1urJrZTCyQ5A5yTQmNnDlJK99Mp2nVw3I5IJorefRogXXaidHtQyRMF-5bk09s7yuLwU', price: '$49.99', oldPrice: null, discount: null },
-  { title: 'E-Sports Champions', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDicFWOAplhgxC5Px8slNyGSemS-xrJwd6mtEYWUjMOpr8rf-bvNwpCZZxKvLIEQPsl5EV7JVWBrNgtP-bNaUqHingxNGkakARpSreGojXVwfYe-IgnH5prWh_zL47eShocEX2e12fSZoiX5LM1bQfPJrCZL8JBDv3ltTElwuhMRAfYk2fWMDf-AOkFSzFOMVSsf-InMERSzX6N46-cVzKgR0tofCoB9Ake51A_TCiug-GMPSGCqyKJiBISDSMXhqImc2vvbdhPxmg', price: '$39.99', oldPrice: null, discount: null },
-  { title: 'Pixel Quest', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDTOVQPLJ7xLw3_swxb4cZioUBLKPbz3kY8I--7CsyczfIv7ql9qJl_PA1oAFV2v_34tzOJAmXMZn6skId-1Wc3sxHaTH19ezQf_5PJLyBqsxkwOHEOm95EgIiGybyNx8FKQat-p09x6PpRmpm-o9-JCutF6DxOZvnX-YnMlBpuNtARdzwA23xUvBSevIpa8cwfAFvtagiLTxEHVOULPvuDRF___z7t1bfHVflgbCVELnb8XR7Wa6quQvmxczjjT7BzW_h5YtxOA4M', price: '$14.99', oldPrice: null, discount: null },
-  { title: 'Stealth Ops', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIIZlbSVc2fLSFl4y0jOmJSVt5Edcs0anUmvO3nTM6Kx4dWNbU7Z_tFImDiQa-92aCfDpus4KFlA7Id5Buq2waahKl5fHjzxqU6yeY_ZAYYIRCHgJFFDNIjHh8GJ4lYe9CAibwwZQ059sEB8gfxUW_l_rInZDCWVfp6u19FdLZRVJt7i1aAnjoRQq9Vb_fydbeOxOMJGmICsbOcMbG4dfXDm3FznCnMjCjbDnv7lJ82NiAgN2rToivDv6BDQHGI_fcc6Jo2DxFp5g', price: '$59.99', oldPrice: null, discount: null },
-  { title: 'Soccer Stars 24', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc0FgNtRWGbxjPH8sybnZsZ-GkpclkMaL9esRzxwniB2zFKQfqreYORXaq2YdZjBkay-nrcZD_6PGqTWgiOoa3tSJKQ_vv7NOpSg-yI0pwDyxfcqVz0KYzkfgZo2dW-sadDZI5PGAEDQujR0fWAXp0ehXNwccmRmJYFFGC8A4Xluk94BM1fcnatFkdzaqpfhJRZ5rplH2c8ic82IPfFxPLOhg2CfAv0zm5pg0Bx7Apq5SPcBhdsQkkks7L4a1wyxoFREZN48Sop1g', price: '$59.99', oldPrice: null, discount: null },
+  // Agregamos 'slug'
+  { title: 'Desert Wanderer', slug: 'desert-wanderer', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD7HlBIw0_V7DFqkZCpbL80acsLMFZp2EnxKnZhfxfcE5tBwHEv-s7DdArchb8aPOojQpILChnN8nQKiwwFIRclZUpNfoJcImQXHejY1a4JAPwvsm9jkF9JcoRLrRVlEpNBXPFLW0GzjdPfalGeaF9chMCbxbO-ei0hei2-_Bzhvw_5Ux54J_McHzLibm1vxxWqZU75k_E1urJrZTCyQ5A5yTQmNnDlJK99Mp2nVw3I5IJorefRogXXaidHtQyRMF-5bk09s7yuLwU', price: '$49.99', oldPrice: null, discount: null },
+  { title: 'E-Sports Champions', slug: 'e-sports-champions', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDicFWOAplhgxC5Px8slNyGSemS-xrJwd6mtEYWUjMOpr8rf-bvNwpCZZxKvLIEQPsl5EV7JVWBrNgtP-bNaUqHingxNGkakARpSreGojXVwfYe-IgnH5prWh_zL47eShocEX2e12fSZoiX5LM1bQfPJrCZL8JBDv3ltTElwuhMRAfYk2fWMDf-AOkFSzFOMVSsf-InMERSzX6N46-cVzKgR0tofCoB9Ake51A_TCiug-GMPSGCqyKJiBISDSMXhqImc2vvbdhPxmg', price: '$39.99', oldPrice: null, discount: null },
+  { title: 'Pixel Quest', slug: 'pixel-quest', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDTOVQPLJ7xLw3_swxb4cZioUBLKPbz3kY8I--7CsyczfIv7ql9qJl_PA1oAFV2v_34tzOJAmXMZn6skId-1Wc3sxHaTH19ezQf_5PJLyBqsxkwOHEOm95EgIiGybyNx8FKQat-p09x6PpRmpm-o9-JCutF6DxOZvnX-YnMlBpuNtARdzwA23xUvBSevIpa8cwfAFvtagiLTxEHVOULPvuDRF___z7t1bfHVflgbCVELnb8XR7Wa6quQvmxczjjT7BzW_h5YtxOA4M', price: '$14.99', oldPrice: null, discount: null },
+  { title: 'Stealth Ops', slug: 'stealth-ops', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIIZlbSVc2fLSFl4y0jOmJSVt5Edcs0anUmvO3nTM6Kx4dWNbU7Z_tFImDiQa-92aCfDpus4KFlA7Id5Buq2waahKl5fHjzxqU6yeY_ZAYYIRCHgJFFDNIjHh8GJ4lYe9CAibwwZQ059sEB8gfxUW_l_rInZDCWVfp6u19FdLZRVJt7i1aAnjoRQq9Vb_fydbeOxOMJGmICsbOcMbG4dfXDm3FznCnMjCjbDnv7lJ82NiAgN2rToivDv6BDQHGI_fcc6Jo2DxFp5g', price: '$59.99', oldPrice: null, discount: null },
+  { title: 'Soccer Stars 24', slug: 'soccer-stars-24', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc0FgNtRWGbxjPH8sybnZsZ-GkpclkMaL9esRzxwniB2zFKQfqreYORXaq2YdZjBkay-nrcZD_6PGqTWgiOoa3tSJKQ_vv7NOpSg-yI0pwDyxfcqVz0KYzkfgZo2dW-sadDZI5PGAEDQujR0fWAXp0ehXNwccmRmJYFFGC8A4Xluk94BM1fcnatFkdzaqpfhJRZ5rplH2c8ic82IPfFxPLOhg2CfAv0zm5pg0Bx7Apq5SPcBhdsQkkks7L4a1wyxoFREZN48Sop1g', price: '$59.99', oldPrice: null, discount: null },
 ]);
 
 const filters = ref([
@@ -161,9 +165,7 @@ const toggleDarkMode = () => {
 </script>
 
 <style>
-/* =======================================
-   Estilos Globales (Fuera de scope para Scrollbar y Variables)
-   ======================================= */
+/* Estilos Globales (Fuera de scope para Scrollbar y Variables)*/
 /* Variables CSS */
 :root {
     --primary: #2563EB;
@@ -235,9 +237,7 @@ const toggleDarkMode = () => {
 </style>
 
 <style scoped>
-/* =======================================
-   Global Layout & Containers
-   ======================================= */
+/* Global Layout & Containers */
 .nav-container, .main-content-wrapper, .footer-content {
     max-width: 80rem; /* max-w-7xl */
     margin-left: auto;
@@ -271,9 +271,7 @@ const toggleDarkMode = () => {
     padding-bottom: 3rem; /* pb-12 */
 }
 
-/* =======================================
-   Navbar Styles
-   ======================================= */
+/* Navbar Styles*/
 .sticky-nav {
     /* sticky top-0 z-50 bg-surface-light dark:bg-[#05081a] border-b border-gray-200 dark:border-white/5 backdrop-blur-md bg-opacity-90 dark:bg-opacity-90 */
     position: sticky;
@@ -510,9 +508,7 @@ const toggleDarkMode = () => {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* =======================================
-   Hero Section
-   ======================================= */
+/* Hero Section */
 .hero-section {
     /* relative rounded-2xl overflow-hidden h-[500px] shadow-2xl group */
     position: relative;
@@ -638,9 +634,7 @@ const toggleDarkMode = () => {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* =======================================
-   Filter Section
-   ======================================= */
+/* Filter Section */
 .filter-section {
     /* bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-200 dark:border-white/5 flex flex-col lg:flex-row gap-4 items-center justify-between */
     background-color: var(--surface-light);
@@ -761,9 +755,7 @@ const toggleDarkMode = () => {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* =======================================
-   Game Sections (Featured, New Releases)
-   ======================================= */
+/* Game Sections (Featured, New Releases) */
 .section-header {
     /* flex justify-between items-end mb-6 */
     display: flex;
@@ -848,9 +840,7 @@ const toggleDarkMode = () => {
     }
 }
 
-/* =======================================
-   Footer
-   ======================================= */
+/* Footer */
 .main-footer {
     /* bg-surface-light dark:bg-[#05081a] border-t border-gray-200 dark:border-white/5 py-12 mt-auto */
     background-color: var(--surface-light);

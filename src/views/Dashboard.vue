@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { RouterLink } from 'vue-router'; // 💡 ¡Importación crucial para la navegación!
-
+import { RouterLink } from 'vue-router';
 // Lógica de Vue para el modo oscuro
 const isDark = ref(true); 
 
@@ -272,9 +271,7 @@ onMounted(() => {
 </template>
 
 <style>
-/* =======================================
-   1. Variables CSS 
-   ======================================= */
+/* 1. Variables CSS */
 :root {
   /* Light Mode */
   --primary: #1d4ed8; 
@@ -324,9 +321,7 @@ html.dark #app-wrapper {
   color: var(--text-light);
 }
 
-/* =======================================
-   2. Sidebar (Aside)
-   ======================================= */
+/* Sidebar */
 .sidebar {
   width: 16rem; 
   background-color: var(--surface-light);
@@ -454,9 +449,7 @@ html.dark .sidebar-footer {
   border-color: var(--border-dark);
 }
 
-/* =======================================
-   3. Main Content (Main)
-   ======================================= */
+/* Main */
 .main-content {
   flex-grow: 1;
   padding: 1.5rem; 
@@ -528,9 +521,7 @@ html.dark .dark-mode-toggle:hover {
   background-color: #4b5563; 
 }
 
-/* =======================================
-   4. Filter Panel
-   ======================================= */
+/* Filter Panel */
 .filter-panel {
   background-color: var(--surface-light);
   padding: 1.5rem;
@@ -636,9 +627,7 @@ html.dark .filter-select {
   margin-right: 0.5rem;
 }
 
-/* =======================================
-   5. Stat Cards
-   ======================================= */
+/* Stat Cards */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -772,9 +761,7 @@ html.dark .progress-bar-bg {
   background-color: var(--red-500);
 }
 
-/* =======================================
-   6. Sales Chart (Bar Chart)
-   ======================================= */
+/* Sales Chart */
 .chart-panel {
   background-color: var(--surface-light);
   padding: 1.5rem;
@@ -946,9 +933,7 @@ html.dark .chart-labels {
   color: var(--text-light-gray);
 }
 
-/* =======================================
-   7. Table (Best Sellers)
-   ======================================= */
+/* Table (Best Sellers) */
 .table-panel {
   background-color: var(--surface-light);
   border-radius: 0.75rem;
@@ -1063,9 +1048,7 @@ html.dark .cell-right {
   color: white;
 }
 
-/* =======================================
-   8. Footer
-   ======================================= */
+/* Footer */
 .main-footer {
   margin-top: 2rem;
   text-align: center;

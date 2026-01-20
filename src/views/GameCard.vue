@@ -1,70 +1,41 @@
-<template>
-  <div class="game-card">
-    <div class="card-image-wrapper">
-      <img 
-        :alt="game.title" 
-        class="card-image" 
-        :src="game.imageUrl"
-      />
-      <div v-if="game.discount" class="card-discount-tag" :class="discountBgClass">
-        {{ game.discount }}
-      </div>
-    </div>
-    <div class="card-content">
-      <h3 class="card-title">{{ game.title }}</h3>
-      <div class="card-price-info">
-        <span v-if="game.oldPrice" class="card-price-old">{{ game.oldPrice }}</span>
-        <span :class="priceColorClass" class="card-price-current">
-          {{ game.price }}
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { computed } from 'vue';
+import { defineProps } from 'vue';
+import { RouterLink } from 'vue-router'; // Necesario para la navegación
 
 const props = defineProps({
   game: {
     type: Object,
     required: true,
-    default: () => ({
-      title: 'Título del Juego',
-      imageUrl: '',
-      price: '$0.00',
-      oldPrice: null,
-      discount: null
-    })
-  }
-});
-
-const discountBgClass = computed(() => {
-  if (props.game.discount && props.game.discount.includes('50%')) {
-    return 'bg-green';
-  }
-  return 'bg-primary';
-});
-
-const priceColorClass = computed(() => {
-    if (props.game.discount && props.game.discount.includes('50%')) {
-        return 'text-green bold';
-    }
-    return 'text-secondary';
+  },
 });
 </script>
 
+<template>
+  <RouterLink 
+    :to="{ name: 'product-detail', params: { slug: game.slug } }"
+    class="game-card-link-wrapper"
+  >
+    <div class="game-card">
+      <div class="card-image-wrapper">
+        <img :alt="game.title" class="card-image" :src="game.imageUrl"/>
+        <div v-if="game.discount" class="discount-badge">{{ game.discount }}</div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">{{ game.title }}</h3>
+        <div class="card-price-group">
+          <span v-if="game.oldPrice" class="old-price">{{ game.oldPrice }}</span>
+          <span class="current-price">{{ game.price }}</span>
+        </div>
+      </div>
+    </div>
+  </RouterLink>
+</template>
+
 <style scoped>
 
-:root {
-    /* Light Mode */
-    --primary: #2563EB;
-    --surface-light: #FFFFFF;
-    --text-dark: #111827; /* gray-900 */
-    --text-medium: #4B5563; /* gray-600 */
-    --text-light-gray: #9CA3AF; /* gray-400 */
-    --border-light: #E5E7EB; /* gray-200 */
-    --green: #10B981; /* green-500 */
+.game-card-link-wrapper {
+  text-decoration: none; /* Quita el subrayado de los enlaces */
+  display: block;
 }
 
 .dark {

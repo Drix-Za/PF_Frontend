@@ -1,27 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from '../views/HomePage.vue'; 
+import Dashboard from '../views/Dashboard.vue'; 
+import Login from '../views/Login.vue';
 
-// 1. Componentes importados
-import HomePage from '../views/HomePage.vue';
-import Dashboard from '../views/Dashboard.vue';
+import ProductDetail from '../views/ProductDetail.vue'; 
+import CRUDTest from '../views/CRUDTest.vue';
 
-// Configuración del router
 const router = createRouter({
-  // Usa la historia basada en la URL estándar (necesaria para Vite/Vue 3)
   history: createWebHistory(import.meta.env.BASE_URL),
-  
-  // Definición de rutas
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: HomePage,
+      name: 'home',
+      component: HomePage 
     },
     {
       path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
+      name: 'dashboard',
+      component: Dashboard 
     },
-  ],
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/crudtest',
+      name: 'crudtest',
+      component: CRUDTest
+    },
+    {
+      path: '/game/:slug', 
+      name: 'product-detail',
+      component: ProductDetail
+    },
+
+  ]
 });
 
 export default router;
