@@ -1,42 +1,59 @@
 <template>
   <div class="app-body">
-    
     <nav class="sticky-nav">
       <div class="nav-container">
         <div class="nav-content">
           <div class="nav-left">
             <div class="logo-group">
               <div class="logo-spinner" style="animation-duration: 3s;"></div>
-              <span class="logo-text">GameStore</span>
+              <span class="logo-text">NeoGaming</span>
             </div>
+            
             <div class="nav-links-desktop">
-              <a class="nav-link nav-link-active" href="#">Store</a>
-              
+              <RouterLink to="/" class="nav-link nav-link-active">Store</RouterLink>
               <RouterLink to="/dashboard" class="nav-link">Dashboard</RouterLink>
-              <RouterLink to="/login" class="nav-link">Login</RouterLink>
-              <RouterLink to="/crudtest" class="nav-link">CrudTest</RouterLink>
 
-              <a class="nav-link" href="#">Library</a>
-              <a class="nav-link" href="#">Community</a>
-              <a class="nav-link" href="#">Support</a>
+              <template v-if="!usuario">
+                <RouterLink to="/RegistroUsuario" class="nav-link">Registrarse</RouterLink>
+                <RouterLink to="/Login" class="nav-link">Iniciar Sesión</RouterLink>
+              </template>
+
+              <template v-else>
+                <RouterLink to="/RegProducto" class="nav-link">Manejar Productos</RouterLink>
+                <span class="nav-link user-tag">
+                   <span class="material-icons-outlined text-sm">person</span>
+                   {{ usuario.nombre }}
+                </span>
+              </template>
             </div>
           </div>
+
           <div class="nav-right">
             <div class="search-desktop-wrapper">
               <span class="search-icon-wrapper">
                 <span class="material-icons-outlined text-sm">search</span>
               </span>
-              <input class="nav-search-input" placeholder="Search" type="text"/>
+              <input class="nav-search-input" placeholder="Buscar producto" type="text" v-model="searchQuery"/>
             </div>
+
+            <button v-if="usuario" @click="cerrarSesion" class="nav-icon-button logout-btn" title="Cerrar Sesión">
+              <span class="material-icons-outlined icon-20px">logout</span>
+            </button>
+
             <button class="nav-icon-button">
               <span class="material-icons-outlined icon-20px">shopping_bag</span>
             </button>
-            <button class="nav-icon-button">
-              <span class="material-icons-outlined icon-20px">notifications</span>
-            </button>
-            <div class="avatar-gradient">
-              <img alt="User Avatar" class="avatar-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK8tNXRejlw3Y1HMuww4O8VXz3ODbj2WCtCEzd4X-PusroVmL6ScTyMQO0ZjSD2S5Itok8m2CJLmHpvy6NNIHZCYNwsTFHS78QnB9BlcTRwzEOwGLzfz9Tw2x4pgpNlA9wgC7erPn4-B5vz3ODhZz-0amgq-gOOmgOLKjiMA3h0WFSmnb8dfbzg65dkt3SKuuQjh9UEPml2JzwT_28-aAS-vwIemLF7sgJ-TKEYNSyruKq4j2M0pE0irZRZsnmz0mRQ6lYZ7gpwzw"/>
+
+            <div class="avatar-gradient" @click="$router.push('/EditarPerfil')" style="cursor: pointer">
+            <img 
+                alt="User Avatar" 
+                class="avatar-image" 
+                :src="usuario?.avatar_url 
+                    ? `http://localhost:3000${usuario.avatar_url}` 
+                    : `https://ui-avatars.com/api/?name=${usuario?.nombre || 'User'}&background=2563eb&color=fff`"
+            />
             </div>
+
             <button @click="toggleDarkMode" class="dark-mode-button">
               <span class="material-icons-outlined">light_mode</span>
             </button>
@@ -46,125 +63,189 @@
     </nav>
     
     <main class="main-content-wrapper">
-      
       <section class="hero-section">
-        <img alt="Cyberpunk City Background" class="hero-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlgwUHsyAr4LGxXXVJ3MVN-v_4u78467bZSObj11-ZQ6v9px0OGHR8AnE68J-ad0H9w4CrnQKAGJPu2J4DHg-cKXoCJOKr4x8PAkOn5B3uI7yey9ABZsVRQxJKR0KTvxhiJETodjx3m2xfZ-VT0U7QVLVL6K7HFwe0qM-AtPfXCAIXEpS49iPRoEo2rQNfpWmsn8k01julklabaCl8iXgD86ueZfSXaistJpSWhQFsk31NzMcghWZmeszAP1hVI0zaySO3sNh031o"/>
+        <img alt="Hero" class="hero-image" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop"/>
         <div class="hero-gradient-overlay"></div>
         <div class="hero-text-content">
-          <h1 class="hero-title">
-            Cyber Odyssey: <br/>The Final Frontier
-          </h1>
-          <p class="hero-subtitle">
-            Experience the latest AAA release with stunning graphics and immersive gameplay. Available now!
-          </p>
+          <p v-if="usuario" class="welcome-badge">Sesión iniciada como {{ usuario.email }}</p>
+          <h1 class="hero-title">Cyber Odyssey: <br/>The Final Frontier</h1>
+          <p class="hero-subtitle">Experimenta el futuro del gaming hoy mismo.</p>
           <div class="hero-buttons-group">
-            <button class="hero-button-primary">
-              Buy Now - $59.99
-            </button>
-            <button class="hero-button-secondary">
-              <span class="material-icons-outlined text-sm">favorite_border</span>
-              Add to Wishlist
-            </button>
+            <button class="hero-button-primary">Comprar Ahora</button>
           </div>
-        </div>
-      </section>
-
-      <section class="filter-section">
-        <div class="filter-search-wrapper">
-          <span class="search-icon-wrapper-large">
-            <span class="material-icons-outlined">search</span>
-          </span>
-          <input class="filter-search-input" placeholder="Buscar juegos, DLCs y más..." type="text"/>
-        </div>
-        <div class="filter-buttons-group">
-          <button v-for="filter in filters" :key="filter" class="filter-button">
-            {{ filter }}
-            <span class="material-icons-outlined text-sm">arrow_drop_down</span>
-          </button>
         </div>
       </section>
 
       <section>
         <div class="section-header">
-          <h2 class="section-title">Juegos Destacados</h2>
-          <a class="section-link" href="#">
-            View All <span class="material-icons-outlined text-sm">arrow_forward</span>
-          </a>
+          <h2 class="section-title">Catálogo de juegos</h2>
+          <span class="section-link">{{ filteredGames.length }} productos encontrados</span>
         </div>
-        <div class="card-grid">
-          <GameCard v-for="game in featuredGames" :key="game.title" :game="game" />
-        </div>
-      </section>
 
-      <section class="section-bottom-margin">
-        <div class="section-header">
-          <h2 class="section-title">Nuevos Lanzamientos</h2>
-          <div class="slider-nav-group">
-            <button class="nav-slider-button">
-              <span class="material-icons-outlined text-sm">chevron_left</span>
-            </button>
-            <button class="nav-slider-button">
-              <span class="material-icons-outlined text-sm">chevron_right</span>
-            </button>
-          </div>
+        <div v-if="loading" class="loading-state">Cargando catálogo...</div>
+
+        <div v-else class="card-grid">
+          <GameCard 
+            v-for="game in filteredGames" 
+            :key="game.id_producto" 
+            :game="game" 
+          />
         </div>
-        <div class="card-grid">
-          <GameCard v-for="game in newReleases" :key="game.title" :game="game" />
+        
+        <div v-if="!loading && filteredGames.length === 0" class="empty-state">
+           No se encontraron productos disponibles.
         </div>
       </section>
     </main>
 
     <footer class="main-footer">
       <div class="nav-container footer-content">
-        <div class="footer-left">
-          <div class="logo-spinner" style="animation-duration: 3s;"></div>
-          <p class="footer-text">© 2024 GameStore. All rights reserved.</p>
-        </div>
-        <div class="footer-links">
-          <a class="footer-link" href="#">About Us</a>
-          <a class="footer-link" href="#">Support</a>
-          <a class="footer-link" href="#">Privacy Policy</a>
-        </div>
+        <p class="footer-text">© 2026 NeoGaming. Conectado a PostgreSQL.</p>
       </div>
     </footer>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router'; // Necesario para que funcione el RouterLink en el template
+import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import GameCard from './GameCard.vue';
 
-// --- Data Simulado ---
-const featuredGames = ref([
-  // Agregamos 'slug'
-  { title: 'Neon Racers', slug: 'neon-racers', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUM8pwS2zYeR4r0a_50A4sdbxIhOHd7ROpUm6UOTXiLrvHzqvJys7lNRUIWFgb7-XNgRxOC3cIofmGzfxepU6Pwb-x9njnX034Kot0nbwR-Ol75cWya2nSDPda0SuvKedM_5o84tHFKxYkDU27cB5eFk_avglTkFo3eYHBLOhX5E14yFPhfe7YNk-a1FCTob1MOQQ59YiJuNn-3TG7tVv3F0t2ARXNLUf0R2twovfchnhvJo-rgdOblcksqUddIYART_sIjguXorM', price: '$19.99', oldPrice: '$24.99', discount: '-20%' },
-  { title: 'Galaxy Warriors', slug: 'galaxy-warriors', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3xkCt9_ry5zfLtXzpTfimr3STXBm7rRdlEri0x1StgFkntJiOjnDkSMugTbqVgAniENEAEmcqIRRwl40rOkC_dYJI4nEhD5duo_fPh4E-veBTrD6B7FUavcB9Lpj_2Dhn7YAn6HN0a-UN7EvBNNZvjuEMvXVJC4h_7KtVKLSJZ18bo4CDqcFV9a1JbaJ2lQBpRjrBhB0WtNqVpKt_pvu5dD39AunWjXy0v1-ju0nFnlH5OMbP_bkKYWvZkxDFR4TNRdYm6j7exTs', price: '$39.99', oldPrice: null, discount: null },
-  { title: 'Mystic Forest', slug: 'mystic-forest', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAreJU7hNM5bQCAemaoWt_xgsKV3u8pOJlSajbMvsSVjSWS9RFDWFn3I-su3T2B-uI3_36PxM_i_GHr3dYkmTAnLe0ri66khr2ooH2LSVaRCvDnr2M3jz89f2bYF2sloQdLHeGixuyW_mWSD6pzNhg_ugSurO943qxGMziIhhoLMZ6Ju3kwxldLgM8OdnFeEKf261C-EwtEda5A9BHLj6GHOSdviXfZMT80BmpGVRVG8q1QgNMxZ8-c8g6kvpZIRvKmZp3mWV1Bq6E', price: '$29.99', oldPrice: null, discount: null },
-  { title: 'The Last Stand', slug: 'the-last-stand', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5fqoYa8w-pp8rSRcoQJEkj4jzsdy0HiUABXqNJ8SQ8Vqn5sYznMMLchgQDxogtYfdPkCMhLCcqoLYphSLO-dnf3ROhg7dChhSMvWT_ScGT0CsFXtfFsHDTO5rnHs3_wZUV7rlO0xjBqInmkbxmHL8J01pYUXPVWCXf_z7A6J8D3z2_Kgq5DCMqisZDAp0DwklzuumIy9bxRIi0pnS40lVOLvkDimriXSKQtS-SHrszlA6dTucVfABUWhPeBtrqho_6zl57_HK5FE', price: '$24.99', oldPrice: '$49.99', discount: '-50%' },
-  { title: 'Ancient Realms', slug: 'ancient-realms', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDa_57CpVcXlgibXvw4sbb_Uarx3ImF7nVrWnFH2lWotT3EmrlqG90_XCnj4dBJ8ByKosbRSEuNiiK0MJHGs_ZlMiWUwqPN29CIdgsSK4T6e2CC1pz2pizg6NxQprLy7J-kx3i1tye_4Hyc2DJXmF7FbkRUfMLCd1aE9K6f1qHls0VM8CUhElSiObFiW1I0TU5T52-ueXzDzg6GbScTHCl5gRi-_rZgxNYiHRqX9GmruWqBMOsoKMzdGhvGi04uSl3OBf3NQYs0Vko', price: '$59.99', oldPrice: null, discount: null },
-]);
+const router = useRouter();
+const usuario = ref(String);
+const games = ref([]);
+const loading = ref(true);
+const searchQuery = ref("");
 
-const newReleases = ref([
-  // Agregamos 'slug'
-  { title: 'Desert Wanderer', slug: 'desert-wanderer', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD7HlBIw0_V7DFqkZCpbL80acsLMFZp2EnxKnZhfxfcE5tBwHEv-s7DdArchb8aPOojQpILChnN8nQKiwwFIRclZUpNfoJcImQXHejY1a4JAPwvsm9jkF9JcoRLrRVlEpNBXPFLW0GzjdPfalGeaF9chMCbxbO-ei0hei2-_Bzhvw_5Ux54J_McHzLibm1vxxWqZU75k_E1urJrZTCyQ5A5yTQmNnDlJK99Mp2nVw3I5IJorefRogXXaidHtQyRMF-5bk09s7yuLwU', price: '$49.99', oldPrice: null, discount: null },
-  { title: 'E-Sports Champions', slug: 'e-sports-champions', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDicFWOAplhgxC5Px8slNyGSemS-xrJwd6mtEYWUjMOpr8rf-bvNwpCZZxKvLIEQPsl5EV7JVWBrNgtP-bNaUqHingxNGkakARpSreGojXVwfYe-IgnH5prWh_zL47eShocEX2e12fSZoiX5LM1bQfPJrCZL8JBDv3ltTElwuhMRAfYk2fWMDf-AOkFSzFOMVSsf-InMERSzX6N46-cVzKgR0tofCoB9Ake51A_TCiug-GMPSGCqyKJiBISDSMXhqImc2vvbdhPxmg', price: '$39.99', oldPrice: null, discount: null },
-  { title: 'Pixel Quest', slug: 'pixel-quest', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDTOVQPLJ7xLw3_swxb4cZioUBLKPbz3kY8I--7CsyczfIv7ql9qJl_PA1oAFV2v_34tzOJAmXMZn6skId-1Wc3sxHaTH19ezQf_5PJLyBqsxkwOHEOm95EgIiGybyNx8FKQat-p09x6PpRmpm-o9-JCutF6DxOZvnX-YnMlBpuNtARdzwA23xUvBSevIpa8cwfAFvtagiLTxEHVOULPvuDRF___z7t1bfHVflgbCVELnb8XR7Wa6quQvmxczjjT7BzW_h5YtxOA4M', price: '$14.99', oldPrice: null, discount: null },
-  { title: 'Stealth Ops', slug: 'stealth-ops', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIIZlbSVc2fLSFl4y0jOmJSVt5Edcs0anUmvO3nTM6Kx4dWNbU7Z_tFImDiQa-92aCfDpus4KFlA7Id5Buq2waahKl5fHjzxqU6yeY_ZAYYIRCHgJFFDNIjHh8GJ4lYe9CAibwwZQ059sEB8gfxUW_l_rInZDCWVfp6u19FdLZRVJt7i1aAnjoRQq9Vb_fydbeOxOMJGmICsbOcMbG4dfXDm3FznCnMjCjbDnv7lJ82NiAgN2rToivDv6BDQHGI_fcc6Jo2DxFp5g', price: '$59.99', oldPrice: null, discount: null },
-  { title: 'Soccer Stars 24', slug: 'soccer-stars-24', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc0FgNtRWGbxjPH8sybnZsZ-GkpclkMaL9esRzxwniB2zFKQfqreYORXaq2YdZjBkay-nrcZD_6PGqTWgiOoa3tSJKQ_vv7NOpSg-yI0pwDyxfcqVz0KYzkfgZo2dW-sadDZI5PGAEDQujR0fWAXp0ehXNwccmRmJYFFGC8A4Xluk94BM1fcnatFkdzaqpfhJRZ5rplH2c8ic82IPfFxPLOhg2CfAv0zm5pg0Bx7Apq5SPcBhdsQkkks7L4a1wyxoFREZN48Sop1g', price: '$59.99', oldPrice: null, discount: null },
-]);
+// 1. Cargar sesión
+const cargarSesion = async () => {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+    usuario.value = null;
+    return;
+  }
 
-const filters = ref([
-  'Genre', 'Price Range', 'Special Offers', 'User Rating',
-]);
+  // Intentamos cargar lo que haya en localStorage primero
+  const sesionGuardada = localStorage.getItem('user');
+  if (sesionGuardada) {
+    usuario.value = JSON.parse(sesionGuardada);
+  }
 
-// --- Lógica del Modo Oscuro ---
+  // Pedimos los datos al servidor para obtener avatar_url
+  try {
+    const response = await fetch('http://localhost:3000/api/perfil', {
+      method: 'PUT', // Tu server usa PUT para esta ruta
+      headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({}) // Enviamos un cuerpo vacío para que no cambie nada, solo devuelva los datos
+    });
+
+    if (response.ok) {
+      const datosServidor = await response.json();
+      
+      // Actualizamos el estado y el storage con la info real de la DB
+      usuario.value = datosServidor;
+      localStorage.setItem('user', JSON.stringify(datosServidor));
+      console.log("✔ Perfil sincronizado con la base de datos");
+    }
+  } catch (error) {
+    console.error("Error sincronizando perfil:", error);
+  }
+};
+
+onMounted(async () => {
+  await cargarSesion();
+  obtenerProductos();
+});
+
+// FETCH de productos desde el Backend
+const obtenerProductos = async () => {
+  try {
+    loading.value = true;
+    const response = await fetch('http://localhost:3000/api/productos');
+    if (!response.ok) throw new Error("Error en la petición");
+    const data = await response.json();
+    
+    // Mapeamos los datos para asegurar que tengan lo que GameCard necesita
+    games.value = data.map(item => ({
+      ...item,
+      // Si no tienes imagen en la DB, generamos una aleatoria por ID
+      imageUrl: `https://picsum.photos/seed/${item.id_producto}/400/500`,
+      price: "$59.99" // O el campo que tengas en tu DB
+    }));
+  } catch (error) {
+    console.error("Error al cargar productos:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// 3. Filtrado por búsqueda (En proceso)
+const filteredGames = computed(() => {
+  return games.value.filter(g => 
+    g.titulo.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+onMounted(() => {
+  cargarSesion();
+  obtenerProductos();
+});
+
+const cerrarSesion = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  usuario.value = null;
+  router.push('/Login');
+};
+
 const toggleDarkMode = () => {
-    document.documentElement.classList.toggle('dark');
+  document.documentElement.classList.toggle('dark');
 };
 </script>
 
-<style>
+<style scoped>
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* Estilos de sesión */
+.user-tag {
+  color: #60a5fa !important;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.welcome-badge {
+  background: rgba(37, 99, 235, 0.2);
+  color: #93c5fd;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+}
+
+.logout-btn:hover {
+  color: #f87171 !important;
+}
 /* Estilos Globales (Fuera de scope para Scrollbar y Variables)*/
 /* Variables CSS */
 :root {
@@ -201,7 +282,6 @@ const toggleDarkMode = () => {
     background: var(--primary-hover); 
 }
 
-/* Hero Gradient */
 .hero-gradient-overlay {
     /* absolute inset-0 hero-gradient */
     position: absolute;
@@ -213,7 +293,7 @@ const toggleDarkMode = () => {
     z-index: 1;
 }
 
-/* Base Body Style */
+/* Estilo base del body */
 .app-body {
     /* bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300 min-h-screen flex flex-col */
     background-color: var(--background-light);
@@ -237,7 +317,7 @@ const toggleDarkMode = () => {
 </style>
 
 <style scoped>
-/* Global Layout & Containers */
+/* Forma general y contenedores */
 .nav-container, .main-content-wrapper, .footer-content {
     max-width: 80rem; /* max-w-7xl */
     margin-left: auto;
@@ -271,7 +351,7 @@ const toggleDarkMode = () => {
     padding-bottom: 3rem; /* pb-12 */
 }
 
-/* Navbar Styles*/
+/* Estilos de navbar*/
 .sticky-nav {
     /* sticky top-0 z-50 bg-surface-light dark:bg-[#05081a] border-b border-gray-200 dark:border-white/5 backdrop-blur-md bg-opacity-90 dark:bg-opacity-90 */
     position: sticky;
@@ -442,7 +522,7 @@ const toggleDarkMode = () => {
     border-color: var(--primary);
 }
 
-/* Nav Icon Buttons */
+/* Botones de iconos del nav */
 .nav-icon-button {
     /* p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white bg-gray-100 dark:bg-surface-dark-lighter rounded-md transition-colors */
     padding: 0.5rem;
@@ -486,7 +566,7 @@ const toggleDarkMode = () => {
     border-color: var(--surface-dark);
 }
 
-/* Dark Mode Toggle Button */
+/* Boton de activar modo oscuro */
 .dark-mode-button {
     /* ml-2 p-2 text-gray-500 dark:text-yellow-400 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors */
     margin-left: 0.5rem;
@@ -508,7 +588,7 @@ const toggleDarkMode = () => {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Hero Section */
+/* Sección del Hero */
 .hero-section {
     /* relative rounded-2xl overflow-hidden h-[500px] shadow-2xl group */
     position: relative;
@@ -634,7 +714,7 @@ const toggleDarkMode = () => {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Filter Section */
+/* Sección de filtro */
 .filter-section {
     /* bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-200 dark:border-white/5 flex flex-col lg:flex-row gap-4 items-center justify-between */
     background-color: var(--surface-light);
@@ -755,7 +835,7 @@ const toggleDarkMode = () => {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Game Sections (Featured, New Releases) */
+/* Sección de productos */
 .section-header {
     /* flex justify-between items-end mb-6 */
     display: flex;

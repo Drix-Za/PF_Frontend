@@ -3,8 +3,9 @@ import HomePage from '../views/HomePage.vue';
 import Dashboard from '../views/Dashboard.vue'; 
 import Login from '../views/Login.vue';
 
-import ProductDetail from '../views/ProductDetail.vue'; 
-import CRUDTest from '../views/CRUDTest.vue';
+import DetalleProducto from '../views/DetalleProducto.vue'; 
+import RegistroUsuario from '../views/RegistroUsuario.vue';
+import RegProducto from '../views/RegProducto.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,22 +21,45 @@ const router = createRouter({
       component: Dashboard 
     },
     {
-      path: '/login',
-      name: 'login',
+      path: '/Login',
+      name: 'Login',
       component: Login
     },
     {
-      path: '/crudtest',
-      name: 'crudtest',
-      component: CRUDTest
+      path: '/RegProducto',
+      name: 'RegProducto',
+      component: RegProducto
     },
     {
-      path: '/game/:slug', 
-      name: 'product-detail',
-      component: ProductDetail
+      path: '/RegistroUsuario',
+      name: 'RegistroUsuario',
+      component: RegistroUsuario
     },
-
+    {
+        path: '/producto/:id',
+        name: 'DetalleProducto',
+        component: DetalleProducto,
+        props: true // Esto permite que el ID llegue como prop si quieres
+    },
+    {
+      path: '/EditarPerfil',
+      name: 'EditarPerfil',
+      component: () => import('../views/EditarPerfil.vue')
+    }
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  
+  // Si la ruta a la que va es el dashboard
+  if (to.path.includes('dashboard')) {
+    if (!token) {
+      // Si no hay token, lo mandamos al login
+      return next('/login');
+    }
+  }
+  next(); // En cualquier otro caso, dejamos pasar
 });
 
 export default router;
