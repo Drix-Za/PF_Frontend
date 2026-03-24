@@ -4,7 +4,7 @@
       <div class="nav-container">
         <div class="nav-content">
           <div class="nav-left">
-            <div class="logo-group">
+        <!--<div class="logo-group">
               <div class="logo-spinner" style="animation-duration: 3s;"></div>
               <span class="logo-text">NeoGaming</span>
             </div>
@@ -27,7 +27,8 @@
               </template>
             </div>
           </div>
-
+          
+          Esta es la barra de busqueda
           <div class="nav-right">
             <div class="search-desktop-wrapper">
               <span class="search-icon-wrapper">
@@ -56,7 +57,7 @@
 
             <button @click="toggleDarkMode" class="dark-mode-button">
               <span class="material-icons-outlined">light_mode</span>
-            </button>
+            </button>-->
           </div>
         </div>
       </div>
