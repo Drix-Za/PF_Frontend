@@ -2,7 +2,7 @@
 name: Basic Workflow
 on:
   push:
-    branches: frontend
+    branches: [ "frontend" ]
 jobs:
   do-things:
     name: Do Things
