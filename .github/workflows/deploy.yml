@@ -3,10 +3,7 @@ name: CI/CD Vue Frontend
 on:
   push:
     branches: [ "frontend" ]
-<<<<<<< HEAD
   workflow_dispatch:
-=======
->>>>>>> 33a42f8e1063e1f4c3d46c7b15244967fcf42b62
 
 jobs:
   build-and-deploy:
